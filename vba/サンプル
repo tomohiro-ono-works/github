@@ -1,0 +1,21 @@
+function toNestedArray(jsonString, withHeader = false) {
+  const issues = JSON.parse(jsonString);
+
+  const rows = issues.map(({ issueKey, summary, category }) => ([
+    issueKey ?? "",
+    summary ?? "",
+    Array.isArray(category)
+      ? category.map(c => c && c.name).filter(Boolean).join(", ")
+      : ""
+  ]));
+
+  if (withHeader) {
+    rows.unshift(["課題番号", "課題のタイトル", "カテゴリ名"]);
+  }
+
+  return rows;
+}
+
+// 使用例
+// const nested = toNestedArray(jsonText, true);
+// console.log(nested);
